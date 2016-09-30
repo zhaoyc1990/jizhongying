@@ -1,0 +1,26 @@
+<html>
+<head>
+ <link href="{% url 'index' %}static/host.css" rel="stylesheet" type="text/css"/>
+<title>主机列表</title>
+</head>
+<body>
+
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div class="form">
+<div style="height:10px"></div>
+{% for host in hostlist %}
+<div id="hostlist_id">
+<span id="hostname">
+<a href="">
+{{ host.name }}
+</a>
+<span>
+</div>
+{% endfor %}
+</div>
+
+</form>
+</body>
+</html>

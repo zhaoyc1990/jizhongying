@@ -1,0 +1,25 @@
+<html>
+<head>
+ 
+<title>添加主机</title>
+</head> 
+<body>
+
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div class="form" >
+<div style="height:10px"></div>
+<link href="{% url 'index' %}static/host.css" rel="stylesheet" type="text/css"/>
+<form method='post'>
+{% csrf_token %}
+<table>
+{{ form.as_table  }}
+</table>
+<input class="input_add" type="submit" value="提交">
+
+</div>
+
+</form>
+</body>
+</html>

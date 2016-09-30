@@ -1,0 +1,75 @@
+form{
+	margin: 0;
+	padding: 0;
+	display: block;
+	margin-top: 0em;
+}
+input{
+	margin: 2px 0;
+	padding: 2px 3px;
+	vertical-align: middle;
+	font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+	font-weight: normal;
+	font-size: 13px;
+	
+}
+select{
+	margin: 2px 0;
+	padding: 2px 3px;
+	vertical-align: middle;
+	font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+	font-weight: normal;
+	font-size: 13px;
+	
+}
+label{
+	padding:10px;
+	display: block;
+	padding: 4px 10px 0 0;
+	float: left;
+	width: 160px;
+	word-wrap: break-word;
+	line-height: 1;
+}
+
+textarea{
+	width:358px;
+}
+.input_add{
+	float: right;
+	border: none;
+	font-weight: 400;
+	background: #666666;
+	padding: 6px 10px;
+}
+	
+}
+#hostlist_id{
+	height:30px;
+	width:auto;
+	
+	
+}
+a:visited {
+    font-size: 10pt;
+    color: #000000;
+    font-family: 宋体;
+    text-align: left;
+    text-decoration: underline;
+    TEXT-DECORATION: none;
+}
+a:link {
+    color: #333;
+    font-family: 宋体;
+    text-align: left;
+    text-decoration: underline;
+    TEXT-DECORATION: none;
+}
+.form{
+	float: left;
+    width: 550px;
+	overflow: hidden;
+	padding: 10px;
+	font-size: 13px;
+	border-bottom: 1px solid #eee;
+}

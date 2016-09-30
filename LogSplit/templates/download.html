@@ -1,0 +1,14 @@
+﻿<html>
+
+<head>
+<title>操作成功 </title>
+</head>
+<body>
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div><span>点击下载</span></div>
+
+<a href="{% url 'upload' %}{{ filepath }}">{{ filename }}</a>
+</body>
+</html>
