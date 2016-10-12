@@ -22,7 +22,7 @@ class Script(models.Model):
 
 class Group(models.Model):
 	group_name = models.CharField(u'组名', max_length=50, default=u'未分组')
-	
+	docker_registry = models.CharField(u'docker仓库地址及端口',max_length=50, default=u'空')
 	def __unicode__(self):
 		return self.group_name
 	def getall(self):

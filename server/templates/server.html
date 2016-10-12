@@ -1,0 +1,39 @@
+<html>
+<head>
+ 
+<title>服务操作</title>
+<script type="text/javascript" src="server.js"></script> 
+</head> 
+<body>
+
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div class="form" >
+<div style="height:10px"></div>
+<link href="{% url 'index' %}static/host.css" rel="stylesheet" type="text/css"/>
+<div>
+<table border="0">
+	<tr>
+		<th><a href="{% url 'addserver' %}">添加</a></th>
+		<th><a href="{% url 'version_switch' %}">版本切换</a></th>
+	</tr>
+</table>
+</div>
+<div>
+	<table border="0">
+	<tr>
+		<th></th><th>版本</th><th>操作</th>
+	</tr> 
+	<tr>
+		<td>手机广播管理</td>
+		<td>tag</td>
+		<td>切换</td>
+	</tr>
+	</table>
+</div>
+</div>
+
+
+</body>
+</html>

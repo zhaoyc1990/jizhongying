@@ -17,7 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 import LogSplit.views as logsplit_views
 import host.views as host_views
+import server.views as server_views
 urlpatterns = [
+	url(r'^version_switch/$', server_views.version_switch, name='version_switch'),
+	url(r'^addserver/$', server_views.addserver, name='addserver'),
+	url(r'^server/$', server_views.server, name='server'),
 	url(r'^Operatefile/$', host_views.operatefile, name='operatefile'),
 	url(r'^hostlist/$', host_views.hostlist, name='showhostlist'),
 	url(r'^addhost/$', host_views.addhost, name='addhost'),

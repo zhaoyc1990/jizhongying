@@ -1,0 +1,231 @@
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>服务操作</title>
+<style>
+td {
+	font:16px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
+	text-align:right;
+}
+#tabletitle{
+	font:18px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
+	color:#ffffff;
+	text-align:center;
+	background-color:#000000;
+}
+
+.input{
+	text-align:left;
+	
+}
+
+<!-- input 样式  -->
+.tableinput{
+	size=16
+	margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    color:#333;
+    line-height:normal;
+    font-family:"Microsoft YaHei",Tahoma,Verdana,SimSun;
+    font-style:normal;
+    font-variant:normal;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-weight:normal;
+    margin-top:0px;
+    margin-bottom:0px;
+    margin-left:0px;
+    padding-top:4px;
+    padding-right:4px;
+    padding-bottom:4px;
+    padding-left:4px;
+    font-size: 17px;
+    outline-width:medium;
+    outline-style:none;
+    outline-color:invert;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+	border-radius:10px;
+    text-shadow:0px 1px 2px #fff;
+    background-attachment:scroll;
+    background-repeat:repeat-x;
+    background-position-x:left;
+    background-position-y:top;
+    background-size:auto;
+    background-origin:padding-box;
+    background-clip:border-box;
+    background-color:rgb(255,255,255);
+    margin-right:8px;
+    border-top-color:#ccc;
+    border-right-color:#ccc;
+    border-bottom-color:#ccc;
+    border-left-color:#ccc;
+    border-top-width:1px;
+    border-right-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-top-style:solid;
+    border-right-style:solid;
+    border-bottom-style:solid;
+    border-left-style:solid;
+}
+.tableinput:focus {
+     border: 1px solid #fafafa;
+    -webkit-box-shadow: 0px 0px 6px #007eff;
+     -moz-box-shadow: 0px 0px 5px #007eff;
+     box-shadow: 0px 0px 5px #007eff;   
+    
+}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+	//点击添加一行配置
+	$("#addtabletr").click(function() {
+		var tr = "<tr><td><input style=\"font-size: 17px; width:370px; \" class=\"tableinput\" name=\"configure_key\" type=\"text\" value=\"\" /></td><td><input style=\"font-size: 17px; width:370px; \" class=\"tableinput\" name=\"configure_value\" type=\"text\" value=\"\" /><td></tr>";
+		$("#addservertable").append(tr);
+		//$("table tr:eq(2)").after(tr);
+	});
+});
+</script>
+</head> 
+<body>
+
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div class="form" style="width:auto;" >
+<div style="height:10px"></div>
+<link href="{% url 'index' %}static/host.css" rel="stylesheet" type="text/css"/>
+<div>
+<form method="post" action="{% url 'index' %}addserver/">
+	{% csrf_token %}
+<table id="addservertable" style="width:100%;" cellpadding="2" cellspacing="0" border="0" bordercolor="#000000" class="ke-zeroborder">
+		<tbody>
+			<tr>
+				<td id="tabletitle" colspan="2">
+					服务基本信息
+				</td>
+			</tr>
+			<tr>
+				<td>
+					服务名(中文)：
+				</td>
+				<td class="input">
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_Zh" type="text" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>服务名(英文)：</span><br />
+				</td>
+				<td class="input">
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_En" type="text" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					运行服务宿主：<br />
+				</td>
+				<td class="input">
+					组名
+					<select name="group" style="text-align:left;">
+						<option value="volvo">Volvo</option>
+						<option value="saab">Saab</option>
+						<option value="fiat" selected="selected">Fiat</option>
+						<option value="audi">Audi</option>
+					</select>
+
+					主机
+					<select name="host" style="text-align:right;">
+						<option value="volvo">Volvo</option>
+						<option value="saab">Saab</option>
+						<option value="fiat" selected="selected">Fiat</option>
+						<option value="audi">Audi</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					运行环境选择：<br />
+				</td>
+				<td class="input">
+					环境
+					<select name="group" style="width=80px;text-align:right;">
+						<option value="volvo">Volvoddddddddddd</option>
+						<option value="saab">Saab</option>
+						<option value="fiat" selected="selected">Fiat</option>
+						<option value="audi">Audi</option>
+					</select>
+
+					版本
+					<select name="host" style="text-align:right;">
+						<option value="volvo">Volvo</option>
+						<option value="saab">Saab</option>
+						<option value="fiat" selected="selected">Fiat</option>
+						<option value="audi">Audi</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					是否需要容器化:<br />
+				</td>
+				<td class="input">
+					<label><input name="container" type="radio" value="True" />是</label> 
+					<label><input name="container" type="radio" value="False" />否 </label> 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					开放端口：
+				</td>
+				<td class="input">
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="port" type="number" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					版本库地址：
+				</td>
+				<td class="input">
+					<input style="font-size: 17px; width:370px; " class="tableinput" name="gitsite" type="url" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td id="tabletitle" colspan="2">
+					服务配置文件(没有可以不填)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					key与value 的赋值符号
+				</td>
+				<td  style="text-align:left;">
+					<label><input name="container" type="radio" value="True" />":冒号"</label> 
+					<label><input name="container" type="radio" value="False" />"=等于号" </label> 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					配置文件类型(不代表文件后缀)
+				</td>
+				<td  style="text-align:left;">
+					<label><input name="container" type="radio" value="True" />"json"</label> 
+					<label><input name="container" type="radio" value="False" />"txt" </label> 
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div>
+<span id="addtabletr">添加一行</span>
+</div>
+<div><input class="input_add" type="submit" value="提交"></div>
+</form>
+</body>
+</html>

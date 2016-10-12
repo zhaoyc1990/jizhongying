@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import CreateLogSplit
+#	from .forms import CreateLogSplitNext
 from host.models import hostinfo
 from .LogSplitt import LogSplit
 from .models import servicename
@@ -69,8 +70,9 @@ def logsplit(request):
 		
 	else:# 当正常访问时
 		form = CreateLogSplit()
+		# form_next = CreateLogSplitNext()
 		#pass
-	return render(request, 'logsplit.html', {'form': form})
+	return render(request, 'logsplit.html', {'form': form})# 'form_next': form_next})
 	
 
 #去时间戳后面的零
