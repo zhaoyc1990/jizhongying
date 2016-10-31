@@ -9,16 +9,39 @@ def server(request):
 	return render(request, 'server.html', )
 	
 def addserver(request):
-	#先定义一个字典包含上级页面所有name,以便遍历使用
-	#获取当前目录的上级目录
-	rootpath = os.getcwd()
-	#所有管理git 的项目目录
-	projectpath = os.path.normpath(rootpath + '/server/git')
-	#切换工作目前，以执行git 操作
-	#os.chdir(projectpath)
-	
-	
-	return render(request, 'addserver.html', )
+	if request.method == 'POST':
+		#先定义一个字典包含上级页面所有name,以便遍历使用
+		html_name = {
+			'name_Zh':[], # 服务中文名
+			'name_En':[],	#服务英文名
+			'group':[],		#运行服务宿主主机所在组
+			'host':[],		#运行服务宿主主机名
+			'environment':[],	#运行环境选择
+			'container':[],	#是否需要容器化
+			'tag':[],			#环境版本如.java1.6/1.7/1.8
+			#'port':[],			#如需要需要容器，则开放端口号,list
+			'gitsite':[],		#GIT版本控制地址
+			'symbol':[],		#key与value 的赋值符号 :/=
+			'filetype':[],		#配置文件类型(不代表文件后缀)	json/txt
+			#'configure_key':[],	#配置文件 key
+			#'configure_value':[],#配置文件 value
+		}
+		#遍历html_name 给addserver_from赋值
+		for key in html_name:
+			html_name[key] = request.POST[key]
+			print(type(html_name[key]))
+			print(key + ":" + html_name[key])
+
+
+		#获取当前目录的上级目录
+		rootpath = os.getcwd()#key与value 的赋值符号
+		#所有管理git 的项目目录
+		projectpath = os.path.normpath(rootpath + '/server/git')
+		#切换工作目前，以执行git 操作
+		#os.chdir(projectpath)
+		return render(request, 'addserver.html', {'html_name': html_name} )
+	else:
+		return render(request, 'addserver.html', )
 	
 def version_switch(request):
 
@@ -26,6 +49,8 @@ def version_switch(request):
 	return render(request, 'server.html', )
 	
 def mobliemanager(request):
+
+
 	#获取当前目录的上级目录
 	rootpath = os.getcwd()
 	#所有管理git 的项目目录

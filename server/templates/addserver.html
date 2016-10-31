@@ -80,8 +80,7 @@ td {
     
 }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js">
-</script>
+    <script src="{% url 'index' %}static/jquery-1.8.0.js"></script>
 <script>
 $(document).ready(function(){
 	//点击添加一行配置
@@ -89,6 +88,15 @@ $(document).ready(function(){
 		var tr = "<tr><td><input style=\"font-size: 17px; width:370px; \" class=\"tableinput\" name=\"configure_key\" type=\"text\" value=\"\" /></td><td><input style=\"font-size: 17px; width:370px; \" class=\"tableinput\" name=\"configure_value\" type=\"text\" value=\"\" /><td></tr>";
 		$("#addservertable").append(tr);
 		//$("table tr:eq(2)").after(tr);
+	});
+	//容器改变值，动态添加端口input
+	$("#container_True").change(function(){
+		$("#portaa").after("<tr id=\"port\"><td>开放端口：</td><td class=\"input\"><input style=\"font-size: 17px; width:370px;\" class=\"tableinput\" name=\"port\" type=\"number\" /></td></tr>");
+	});
+	//容器选“否”，则动态删除添加的开放端口input
+	$("#container_False").change(function(){
+		//alert("wocao");
+		$("table #port").remove();
 	});
 });
 </script>
@@ -116,7 +124,7 @@ $(document).ready(function(){
 					服务名(中文)：
 				</td>
 				<td class="input">
-					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_Zh" type="text" value="" />
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_Zh" type="text" value="{{ html_name.name_Zh }}" />
 				</td>
 			</tr>
 			<tr>
@@ -124,12 +132,12 @@ $(document).ready(function(){
 					<span>服务名(英文)：</span><br />
 				</td>
 				<td class="input">
-					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_En" type="text" value="" />
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_En" type="text" value="{{ html_name.name_En }}" />
 				</td>
 			</tr>
 			<tr>
 				<td>
-					运行服务宿主：<br />
+					运行服务宿主：{{ html_name.container }}<br />
 				</td>
 				<td class="input">
 					组名
@@ -155,7 +163,7 @@ $(document).ready(function(){
 				</td>
 				<td class="input">
 					环境
-					<select name="group" style="width=80px;text-align:right;">
+					<select name="environment" style="width=80px;text-align:right;">
 						<option value="volvo">Volvoddddddddddd</option>
 						<option value="saab">Saab</option>
 						<option value="fiat" selected="selected">Fiat</option>
@@ -163,7 +171,7 @@ $(document).ready(function(){
 					</select>
 
 					版本
-					<select name="host" style="text-align:right;">
+					<select name="tag" style="text-align:right;">
 						<option value="volvo">Volvo</option>
 						<option value="saab">Saab</option>
 						<option value="fiat" selected="selected">Fiat</option>
@@ -171,29 +179,22 @@ $(document).ready(function(){
 					</select>
 				</td>
 			</tr>
-			<tr>
+			<tr id="portaa">
 				<td>
 					是否需要容器化:<br />
 				</td>
 				<td class="input">
-					<label><input name="container" type="radio" value="True" />是</label> 
-					<label><input name="container" type="radio" value="False" />否 </label> 
+					<label><input id="container_True" name="container" type="radio" value="True" />是</label>
+					<label><input id="container_False" name="container" type="radio" value="False" {% if html_name.container %} checked {% endif %}/>否 </label>
 				</td>
 			</tr>
-			<tr>
-				<td>
-					开放端口：
-				</td>
-				<td class="input">
-					<input style="font-size: 17px; width:370px;" class="tableinput" name="port" type="number" value="" />
-				</td>
-			</tr>
+			
 			<tr>
 				<td>
 					版本库地址：
 				</td>
 				<td class="input">
-					<input style="font-size: 17px; width:370px; " class="tableinput" name="gitsite" type="url" value="" />
+					<input style="font-size: 17px; width:370px; " class="tableinput" name="gitsite" type="url" value="{{ html_name.gitsite }}" />
 				</td>
 			</tr>
 			<tr>
@@ -206,8 +207,8 @@ $(document).ready(function(){
 					key与value 的赋值符号
 				</td>
 				<td  style="text-align:left;">
-					<label><input name="container" type="radio" value="True" />":冒号"</label> 
-					<label><input name="container" type="radio" value="False" />"=等于号" </label> 
+					<label><input name="symbol" type="radio" value="True" />":冒号"</label> 
+					<label><input name="symbol" type="radio" value="False"  checked />"=等于号" </label>
 				</td>
 			</tr>
 			<tr>
@@ -215,8 +216,8 @@ $(document).ready(function(){
 					配置文件类型(不代表文件后缀)
 				</td>
 				<td  style="text-align:left;">
-					<label><input name="container" type="radio" value="True" />"json"</label> 
-					<label><input name="container" type="radio" value="False" />"txt" </label> 
+					<label><input name="filetype" type="radio" value="True" />"json"</label> 
+					<label><input name="filetype" type="radio" value="False"  checked />"txt" </label>
 				</td>
 			</tr>
 		</tbody>
