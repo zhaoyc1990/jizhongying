@@ -3,6 +3,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import os
 # Create your views here.
+from django.utils.datastructures import MultiValueDictKeyError
+
+
 def server(request):
 	
 	
@@ -19,7 +22,7 @@ def addserver(request):
 			'environment':[],	#运行环境选择
 			'container':[],	#是否需要容器化
 			'tag':[],			#环境版本如.java1.6/1.7/1.8
-			#'port':[],			#如需要需要容器，则开放端口号,list
+			'port':[],			#如需要需要容器，则开放端口号,list
 			'gitsite':[],		#GIT版本控制地址
 			'symbol':[],		#key与value 的赋值符号 :/=
 			'filetype':[],		#配置文件类型(不代表文件后缀)	json/txt
@@ -28,11 +31,22 @@ def addserver(request):
 		}
 		#遍历html_name 给addserver_from赋值
 		for key in html_name:
-			html_name[key] = request.POST[key]
+			html_name[key] = request.POST.get(key,'')
 			print(type(html_name[key]))
 			print(key + ":" + html_name[key])
-
-
+		#因为configure_key 和value 是配对的list 所以它俩单独遍历
+		i = 0
+		key_list = []
+		value_list= []
+		while True:
+			i = i+1
+			try:
+				key_list.append(request.POST['configure_key'+ str(i)])
+				value_list.append(request.POST['configure_value'+str(i)])
+			except MultiValueDictKeyError:
+				break
+		print "key_list:" , key_list
+		print "value_list" ,value_list
 		#获取当前目录的上级目录
 		rootpath = os.getcwd()#key与value 的赋值符号
 		#所有管理git 的项目目录
