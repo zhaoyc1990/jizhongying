@@ -47,6 +47,9 @@ def addserver(request):
 				break
 		print "key_list:" , key_list
 		print "value_list" ,value_list
+		#把key, value list 放在html_name里面
+		html_name['configure_key'] = key_list
+		html_name['configure_value'] = value_list
 		#获取当前目录的上级目录
 		rootpath = os.getcwd()#key与value 的赋值符号
 		#所有管理git 的项目目录

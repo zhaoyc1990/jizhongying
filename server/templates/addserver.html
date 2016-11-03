@@ -80,7 +80,7 @@ td {
     
 }
 </style>
-    <script src="{% url 'index' %}static/jquery-1.8.0.js"></script>
+<script src="{% url 'index' %}static/jquery-2.1.1.min.js"></script>
 <script>
     //一个自增变量，增加配置文件 key:value的name+aa
     var aa=0;
@@ -108,6 +108,9 @@ $(document).ready(function(){
 <span id="hi_container" style="display:none">{{ html_name.container }}</span>
 <span id="hi_symbol" style="display:none">{{ html_name.symbol }}</span>
 <span id="hi_filetype" style="display:none">{{ html_name.filetype }}</span>
+{% for value in html_name.configure_value %}
+    <span id="hi_configure_value{{ forloop.counter }}" style="display:none">{{ value }}</span>
+{% endfor %}
 <div class="shangxiadq">
 {% include 'top.html' %}
 </div>
@@ -200,7 +203,7 @@ $(document).ready(function(){
             <span id="hi_host" style="display:none">{{ html_name.host }}</span>
 			<script>
                         <!--  判断服务宿主机选中状态  -->
-                        $(".group").val($("#hi_group").text())
+                        $(".group").val($("# ").text())
                         $(".host").val($("#hi_host").text())
                         <!--  判断运行环境选中状态  -->
                         $(".environment").val($("#hi_environment").text())
@@ -246,10 +249,22 @@ $(document).ready(function(){
                     </script>
 				</td>
 			</tr>
+
+            {% for key in html_name.configure_key  %}
+                <tr>
+                <td><input style="font-size: 17px; width:370px; " class="tableinput" name="configure_key{{ forloop.counter }}" type="text" value="{{ key }}" /></td>
+                <td><input id="configure_value" style="font-size: 17px; width:370px; " class="tableinput" name="configure_value{{ forloop.counter }}"  type="text" value="" /><td>
+                </tr>
+            {% endfor %}
+            <script><!--  配置文件value赋值，值在最上面  -->
+
+            </script>
+
 		</tbody>
 	</table>
 </div>
 <div>
+
 <span id="addtabletr">添加一行</span>
 </div>
 <div><input class="input_add" type="submit" value="提交"></div>
