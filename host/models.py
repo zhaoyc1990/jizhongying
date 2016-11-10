@@ -35,6 +35,8 @@ class hostinfo(models.Model):
 	rootname = models.CharField(u'管理员用户名', max_length=50)
 	rootpassword = models.CharField(u'密码', max_length=30)
 	sshport = models.IntegerField(u'SSH端口')
+	docker_remote_api_port = models.IntegerField(u'docker远程API端口', blank=True, null=True)
+	host_status = models.BooleanField(u'主机运行状态', default=True)
 	description = models.TextField(u'简述信息', default=u'无')
 	spare = models.CharField(u'备用扩展字段', max_length=30, blank=True)
 	script = models.ForeignKey(Script, blank=True, null=True)
@@ -42,4 +44,6 @@ class hostinfo(models.Model):
 	createdate = models.DateTimeField(u'创建/添加日期', default = timezone.now)
 	def __unicode__(self):
 		return self.name
+	def getid(self):
+		return {str(self.id): self.name}
 

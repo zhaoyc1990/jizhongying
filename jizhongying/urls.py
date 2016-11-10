@@ -1,3 +1,4 @@
+# coding: utf-8
 """jizhongying URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -24,8 +25,12 @@ urlpatterns = [
 	url(r'^server/$', server_views.server, name='server'),
 	url(r'^Operatefile/$', host_views.operatefile, name='operatefile'),
 	url(r'^hostlist/$', host_views.hostlist, name='showhostlist'),
-	url(r'^addhost/$', host_views.addhost, name='addhost'),
-	url(r'^logsplit/$', logsplit_views.logsplit, name='logsplit'),
+	url(r'^addhost/$', host_views.addhost, name='addhost'),							#添加主机
+	url(r'^logsplit/$', logsplit_views.logsplit, name='logsplit'),						#日志截取
+	url(u'^addserver/startinit/$' ,server_views.startinit, name='startinit'),			#后台初始化docker
+	url(r'^addserver/Jquery_get_message/$', server_views.Jquery_get_message, name='Jquery_get_message'),
+	url(r'^addserver/getenv_tags/$', server_views.getMeEnvTags, name='getenv_tags'),
+	url(r'^addserver/gethosts/$', server_views.getMeGroupUserJson, name='gethosts'),#jquery 动态加载主机
 	url(r'^upload/$', logsplit_views.file_download, name = 'upload'),
     url(r'^$', logsplit_views.index, name='index'),
     url(r'^admin/', admin.site.urls),
