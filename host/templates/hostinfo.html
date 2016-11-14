@@ -1,0 +1,130 @@
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>主机运行服务信息</title>
+<style>
+td {
+	font:16px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
+	text-align:right;
+}
+#tabletitle{
+	font:18px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
+	color:#ffffff;
+	text-align:center;
+	background-color:#434343;
+}
+
+.input{
+	text-align:left;
+	
+}
+ .black_overlay{
+     display: none;
+     position: absolute;
+     top: 0%;  left: 0%;
+     width: 100%;  height: 100%;
+     background-color: black;  z-index:1001;  -moz-opacity: 0.8;  opacity:.80;  filter: alpha(opacity=80);
+ }
+  .white_content{
+     display: none;
+      position: absolute;
+      top: 25%;  left: 25%;
+      width: 50%;  height: 50%;
+      padding: 16px;  border: 16px solid orange;  background-color: white;  z-index:1002;  overflow: auto;
+  }
+
+
+{#<!-- input 样式  -->#}
+.tableinput{
+	size:16px;
+	margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    color:#333;
+    line-height:normal;
+    font-family:"Microsoft YaHei",Tahoma,Verdana,SimSun;
+    font-style:normal;
+    font-variant:normal;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-weight:normal;
+    margin-top:0px;
+    margin-bottom:0px;
+    margin-left:0px;
+    padding-top:4px;
+    padding-right:4px;
+    padding-bottom:4px;
+    padding-left:4px;
+    font-size: 17px;
+    outline-width:medium;
+    outline-style:none;
+    outline-color:invert;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+	border-radius:10px;
+    text-shadow:0px 1px 2px #fff;
+    background-attachment:scroll;
+    background-repeat:repeat-x;
+    background-position-x:left;
+    background-position-y:top;
+    background-size:auto;
+    background-origin:padding-box;
+    background-clip:border-box;
+    background-color:rgb(255,255,255);
+    margin-right:8px;
+    border-top-color:#ccc;
+    border-right-color:#ccc;
+    border-bottom-color:#ccc;
+    border-left-color:#ccc;
+    border-top-width:1px;
+    border-right-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-top-style:solid;
+    border-right-style:solid;
+    border-bottom-style:solid;
+    border-left-style:solid;
+}
+.tableinput:focus {
+     border: 1px solid #fafafa;
+    -webkit-box-shadow: 0px 0px 6px #007eff;
+     -moz-box-shadow: 0px 0px 5px #007eff;
+     box-shadow: 0px 0px 5px #007eff;   
+    
+}
+
+</style>
+<script src="{% url 'index' %}static/jquery-2.1.1.min.js"></script>
+
+</head> 
+<body>
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div class="form" style="width:700px;">
+<div style="height:10px"></div>
+<div>
+    <table id="addservertable" style="width:100%;" cellpadding="2" cellspacing="0" border="0" bordercolor="#000000" class="ke-zeroborder">
+
+		<tbody>
+			<tr id="titletr">
+				<th id="tabletitle" colspan="6">
+					某某主机运行服务基本信息
+				</th>
+			</tr>
+			<tr>
+                <td>En</td><td>中文名</td><td>端口</td><td>当前版本</td><td>状态</td><td>操作</td>
+            </tr>
+            <tr>
+            <td>English</td><td>某某</td><td>80:90</br>88:89</td><td>5.6.7.9</td><td>running</td><td>修改配nbsp;版本切nbsp;部署nbsp;删除nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+</body>
+</html>

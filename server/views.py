@@ -137,40 +137,40 @@ def addserver(request):
 		return render(request, 'addserver.html', {'html_name': html_name, 'nothing':'---------'})
 
 def gitclone(q,gitsite):
-	q.put('Begining git download...')
+	HttpChannel.objects.create(message='Begining git download...')
 	git = Gitopera(gitsite)
 	returnCode = git.clone()
 	if returnCode == 0:
-		q.put('git download success!')
+		HttpChannel.objects.create(message='git download success!')
 	else:
-		q.put('git download fail!!!')
+		HttpChannel.objects.create(message='git download fail!!!')
 
-
+from requests.exceptions import ConnectionError
 import json
 #host 宿主机id			is_container  boolean 是否容器化
 #environment			镜像地址比如 192.168.2.246:5000/busybox
 #env_tag				镜像表签 latest	1.0
-def dockerinit(q,host, is_container, environment, env_tag):
-	q.put('Begining images for docker download...')
+def dockerinit(host, is_container, environment, env_tag):
+	HttpChannel.objects.create(message='Begining images for docker download...')
 	hostt = hostinfo.objects.values('ip','docker_remote_api_port').filter(id=host)
 	env_image = Environment.objects.values('image').filter(id=environment)
-	try:
-		if is_container == 'True':
-			cli = Client(base_url='tcp://' + hostt['ip'] + ":" + hostt['docker_remote_api_port'],timeout=2)
-			for line in cli.pull(env_image['image'],tag=env_tag,stream=True):
-				q.put(json.dumps(json.loads(line), ident=4))
-	except requests.exceptions.ConnectTimeout, e:
-		print u"连接host:" + hostt['ip'] + ':' + hostt['docker_remote_api_port'] + " 超时"
+	#取出是对象,必须遍历才能得到dict
+	for host in hostt:
+		pass
+	for image in env_image:
+		pass
 
-
-def getprocessinfo (q):
-	while True:
-		mess = q.get(True)
-		HttpChannel.objects.create(message=mess)
-		print "Get %s from queue." % mess
+	print 'docker_remote_api_port:' , str(host['docker_remote_api_port'])
+	if is_container == 'True':
+		cli = Client(base_url='tcp://' + host['ip'] + ":" + str(host['docker_remote_api_port']).strip(),timeout=2)
+		for line in cli.pull(image['image'],tag=env_tag,stream=True):
+			print type(line)
+			print line
+			HttpChannel.objects.create(message=json.dumps(json.loads(line), indent=4))
 
 @csrf_exempt
 def startinit(request):
+	message = {'message':''}
 	html_name = {
 		'id':'',
 		'host':'',
@@ -180,32 +180,42 @@ def startinit(request):
 		'gitsite':''
 	}
 	for key in html_name:
-		value = request.GET.get(key, '')
-		if value == '':
+		html_name[key] = request.GET.get(key, '')
+		print key + ":get:" + html_name[key]
+		if html_name[key] == '':
 			return JsonResponse({'message':'Error:'+ key + ' not Null'})
+
 	print u"开始初始化"
 	# 开启三个进程同时进行
 	# 1.git 仓库初始化
 	# 2,如果需要有容器化会从该组的仓库地址获取镜像到宿主机
 	# 3.实时获取前面两个进程打印回来的信息
 
-	q = Queue()
 	# pgit = Process(target=gitclone, args=(q,html_name['gitsite']))
 	print "Start...."
 	try:
-		pdocker = Process(target=dockerinit,
-						  args=(q, html_name['host'], html_name['container'], html_name['environment'], html_name['tag']))
-		receive_put = Process(target=getprocessinfo, args=(q))
+		dockerinit(html_name['host'], html_name['container'], html_name['environment'], html_name['tag'])
+		# pdocker = Process(target=dockerinit,
+		# 				  args=(q, html_name['host'], html_name['container'], html_name['environment'], html_name['tag']))
+		# receive_put = Process(target=getprocessinfo, args=(q))
 		# pgit.start()
-		pdocker.start()
-		receive_put.start()
-		pdocker.join()
-		receive_put.terminate()
-	except:
+		# pdocker.start()
+		# receive_put.start()
+		# pdocker.join()
+		# receive_put.terminate()
+		message['message'] = 'success'
+		HttpChannel.objects.create(message='success')
+	except ConnectionError ,ee:
+		print u"连接宿主机超时"
+		HttpChannel.objects.create(message=u'连接宿主机错误003')
+		print ee
+		print html_name['id']
 		print type(html_name['id'])
 		bab_server = Server.objects.filter(id=int(html_name['id']))
 		bab_server.delete()
-
+		HttpChannel.objects.create(message='Error')
+		message['Error'] = 'Error'
+	return JsonResponse(message)
 
 # http jquery 过来调 用的函数
 @csrf_exempt
@@ -218,9 +228,9 @@ def Jquery_get_message(request):
 			mess.take_out = True
 			mess.save()
 	else:
-		print "初始化镜像和代码库过程：暂无新消息01"
+		print u"初始化镜像和代码库过程：暂无新消息01"
 		return JsonResponse({'message':'>>>'})
-	return JsonResponse(message)
+	return JsonResponse(p)
 
 def version_switch(request):
 

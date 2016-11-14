@@ -369,22 +369,31 @@ $(document).ready(function(){
 </div>
 {#提交之前打印的信息#}
 <script>
+    var stat = 0
     function printdiv() {
         $(document).ready(function(){
-            $.get("Jquery_get_message/",
+            if (stat==0){
+                $.get("Jquery_get_message/",
                function(data,status){
 
                    $.each(data,function(name,value){
                        if (name=='message'){
                             $("p.pressinfo").append( value);
                        }else {
-                           $("p.pressinfo").append(name + ":::::::" + value + "</br>");
+                           $("p.pressinfo").append("</br>" + value );
+                           if (value =='Error'){
+                               stat = 1
+                               return 1
+                           }if (value=='success'){
+                               stat = 1
+                               return 1
+                           }
                        }
-
-
                    });
 
                  });
+
+            }else{return 1}
 
         });
     }
