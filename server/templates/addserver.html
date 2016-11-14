@@ -1,0 +1,431 @@
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>服务操作</title>
+<style>
+td {
+	font:16px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
+	text-align:right;
+}
+#tabletitle{
+	font:18px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
+	color:#ffffff;
+	text-align:center;
+	background-color:#000000;
+}
+
+.input{
+	text-align:left;
+	
+}
+ .black_overlay{
+     display: none;
+     position: absolute;
+     top: 0%;  left: 0%;
+     width: 100%;  height: 100%;
+     background-color: black;  z-index:1001;  -moz-opacity: 0.8;  opacity:.80;  filter: alpha(opacity=80);
+ }
+  .white_content{
+     display: none;
+      position: absolute;
+      top: 25%;  left: 25%;
+      width: 50%;  height: 50%;
+      padding: 16px;  border: 16px solid orange;  background-color: white;  z-index:1002;  overflow: auto;
+  }
+
+
+{#<!-- input 样式  -->#}
+.tableinput{
+	size:16px;
+	margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
+    color:#333;
+    line-height:normal;
+    font-family:"Microsoft YaHei",Tahoma,Verdana,SimSun;
+    font-style:normal;
+    font-variant:normal;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-weight:normal;
+    margin-top:0px;
+    margin-bottom:0px;
+    margin-left:0px;
+    padding-top:4px;
+    padding-right:4px;
+    padding-bottom:4px;
+    padding-left:4px;
+    font-size: 17px;
+    outline-width:medium;
+    outline-style:none;
+    outline-color:invert;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+	border-radius:10px;
+    text-shadow:0px 1px 2px #fff;
+    background-attachment:scroll;
+    background-repeat:repeat-x;
+    background-position-x:left;
+    background-position-y:top;
+    background-size:auto;
+    background-origin:padding-box;
+    background-clip:border-box;
+    background-color:rgb(255,255,255);
+    margin-right:8px;
+    border-top-color:#ccc;
+    border-right-color:#ccc;
+    border-bottom-color:#ccc;
+    border-left-color:#ccc;
+    border-top-width:1px;
+    border-right-width:1px;
+    border-bottom-width:1px;
+    border-left-width:1px;
+    border-top-style:solid;
+    border-right-style:solid;
+    border-bottom-style:solid;
+    border-left-style:solid;
+}
+.tableinput:focus {
+     border: 1px solid #fafafa;
+    -webkit-box-shadow: 0px 0px 6px #007eff;
+     -moz-box-shadow: 0px 0px 5px #007eff;
+     box-shadow: 0px 0px 5px #007eff;   
+    
+}
+</style>
+<script src="{% url 'index' %}static/jquery-2.1.1.min.js"></script>
+<script>
+
+$(document).ready(function(){
+    //一个自增变量，增加配置文件 key:value的name+aa
+    var aa = $(".counter").length;
+	//点击添加一行配置
+	$("#addtabletr").click(function() {
+        aa = aa+1;
+		var tr = "<tr><td><input style=\"font-size: 17px; width:370px; \" class=\"tableinput\" name=\"configure_key" + aa +"\" type=\"text\" value=\"\" /></td><td><input style=\"font-size: 17px; width:370px; \" class=\"tableinput\" name=\"configure_value" + aa + "\" type=\"text\" value=\"\" /><td></tr>";
+		$("#addservertable").append(tr);
+		//$("table tr:eq(2)").after(tr);
+	});
+	//容器改变值，动态添加端口input
+	$("#container_True").change(function(){
+		$("#portaa").after("<tr id=\"port\"><td>开放端口：</td><td class=\"input\"><input style=\"font-size: 17px; width:370px;\" class=\"tableinput\" name=\"port\" type=\"text\" /></td></tr>");
+	});
+	//容器选“否”，则动态删除添加的开放端口input
+	$("#container_False").change(function(){
+		//alert("wocao");
+		$("table #port").remove();
+	});
+    //动态加载主机
+    $(".group").change(function(){
+        $(".host").empty();
+       $.post("gethosts/",
+               {
+                   id:$(this).val()
+               },
+               function(data,status){
+                   $.each(data,function(name,value){
+                       $(".host").append("<option value='"+ name + "'>" + value + "</option>")
+                   });
+
+       });
+    });
+    //动态加载环境tag
+    $(".environment").change(function(){
+       $(".tag").empty();  {# 移除原来tag的内容#}
+       $.post("getenv_tags/",
+               {
+                   id:$(this).val()
+               },
+               function(data,status){
+                   $.each(data,function(name,value){
+                       $(".tag").append("<option value='"+ name + "'>" + value + "</option>")
+                   });
+
+       });
+    });
+
+});
+</script>
+</head> 
+<body>
+<span id="serverid" style="display:none">{{ serverid }}</span>
+<span id="hi_container" style="display:none">{{ html_name.container }}</span>
+<span id="hi_host"      style="display:none">{{ html_name.host }}</span>
+<span id="hi_environment" style="display:none">{{ html_name.environment }}</span>
+<span id="hi_tag" style="display:none">{{ html_name.tag }}</span>
+<span id="hi_symbol" style="display:none">{{ html_name.symbol }}</span>
+<span id="hi_filetype" style="display:none">{{ html_name.filetype }}</span>
+<span id="message" stype="">{{ message }}</span>
+{% for value in html_name.configure_value %}
+    <span class="hi_configure_value" style="display:none">{{ value }}</span>
+{% endfor %}
+<div class="shangxiadq">
+{% include 'top.html' %}
+</div>
+<div class="form" style="width:auto;" >
+<div style="height:10px"></div>
+<link href="{% url 'index' %}static/host.css" rel="stylesheet" type="text/css"/>
+<div>
+<form method="post" action="{% url 'index' %}addserver/">
+	{% csrf_token %}
+<div>
+<table id="addservertable" style="width:100%;" cellpadding="2" cellspacing="0" border="0" bordercolor="#000000" class="ke-zeroborder">
+
+		<tbody>
+			<tr>
+				<td id="tabletitle" colspan="2">
+					服务基本信息
+				</td>
+			</tr>
+			<tr>
+				<td>
+					服务名(中文)：
+				</td>
+				<td class="input">
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_Zh" type="text" value="{{ html_name.name_Zh }}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>服务名(英文)：</span><br />
+				</td>
+				<td class="input">
+					<input style="font-size: 17px; width:370px;" class="tableinput" name="name_En" type="text" value="{{ html_name.name_En }}" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					运行服务宿主：<br />
+				</td>
+				<td class="input">
+					组名<select class="group" name="group" style="text-align:left;">
+                        {% if nothing %}
+                            <option value="None" checked>-------</option>
+                        {% else %}
+                            {% for k, vv in group_checked.items %}
+                                <option value="{{ k }}" selected="selected">{{ vv }}</option>
+                            {% endfor %}
+                        {% endif %}
+                        {% for k, vv in html_name.group.items %}
+                            <option value="{{ k }}">{{ vv }}</option>
+                        {% endfor %}
+
+{#					<select class="group" name="group" style="text-align:left;">#}
+{#						<option value="volvo">Volvo</option>#}
+{#						<option value="saab">Saab</option>#}
+{#						<option value="fiat">Fiat</option>#}
+{#						<option value="audi">Audi</option>#}
+					</select>
+
+					主机
+					<select class="host" name="host" style="text-align:right;">
+                    {% if not nothing %}
+						{% for key, value in host_checked.items %}
+                            <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        {% endfor %}
+                        {% for key, value in html_name.host.items %}
+                            <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    {% endif %}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					运行环境选择：<br />
+				</td>
+				<td class="input">
+					环境
+					<select class="environment" name="environment" style="width=80px;text-align:right;">
+                        {% if nothing %}
+                            <option value="None" selected="selected">-------</option>
+                        {% else %}
+                            {% for k, vv in environment_checked.items %}
+                                <option value="{{ k }}" selected="selected">{{ vv }}</option>
+                            {% endfor %}
+                        {% endif %}
+                        {% for k, vv in html_name.environment.items %}
+                            <option value="{{ k }}">{{ vv }}</option>
+                        {% endfor %}
+					</select>
+
+					版本
+					<select class="tag" name="tag" style="text-align:right;">
+                    {% if not nothing %}
+                        {% if tag_checked %}
+                            {% for key, value in tag_checked.items %}
+                                <option value="{{ key }}" selected="selected">{{ value }}</option>
+                            {% endfor %}
+                        {% endif %}
+                        {% for key, value in html_name.tag.items %}
+                            <option value="{{ key }}">{{ value }}</option>
+                        {% endfor %}
+                    {% endif %}
+					</select>
+				</td>
+			</tr>
+			<tr id="portaa">
+				<td>
+					是否需要容器化:<br />
+				</td>
+				<td class="input">
+					<label><input id="container_True" name="container" type="radio" value="True" />是</label>
+					<label><input id="container_False" name="container" type="radio" value="False" />否 </label>
+
+				</td>
+			</tr>
+{#            #}
+{#            #}
+{#            <span id="hi_group" style="display:none"></span>#}
+{#            <span id="hi_host" style="display:none">{{ html_name.host }}</span>#}
+			<script>
+                        <!--  判断服务宿主机选中状态-->
+{#                        $(".group").val($("#hi_group ").text())#}
+{#                        $(".host").val($("#hi_host").text())#}
+                        <!--  判断运行环境选中状态-->
+{#                        $(".environment").val($("#hi_environment").text())#}
+{#                        $(".tag").val($("#hi_tag").text())#}
+                        <!--  判断容器化选中状态  -->
+                        $("#hi_container").text()=="True"?$("#container_True").attr("checked",true):$("#container_False").attr("checked",true)
+                        $("#hi_container").text()=="True"?$("#portaa").after("<tr id=\"port\"><td>开放端口：</td><td class=\"input\"><input style=\"font-size: 17px; width:370px;\" class=\"tableinput\" name=\"port\" type=\"text\" value=\"{{ html_name.port }}\" /></td></tr>"):$("#hi_container")
+            </script>
+			<tr>
+				<td>
+					版本库地址：
+				</td>
+				<td class="input">
+					<input id="gitsite" style="font-size: 17px; width:370px; " class="tableinput" name="gitsite" type="url" value="{{ html_name.gitsite }}" />
+				</td>
+			</tr>
+			<tr>
+				<td id="tabletitle" colspan="2">
+					服务配置文件(没有可以不填)
+				</td>
+			</tr>
+			<tr>
+				<td>
+					key与value 的赋值符号
+				</td>
+				<td  style="text-align:left;">
+					<label><input id="symbol_True" name="symbol" type="radio" value="True" />":冒号"</label>
+					<label><input id="symbol_False" name="symbol" type="radio" value="False"  />"=等于号" </label>
+				</td>
+                <script><!--  判断选中状态  -->
+                        $("#hi_symbol").text()=="True"?$("#symbol_True").attr("checked",true):$("#symbol_False").attr("checked",true)
+                </script>
+			</tr>
+			<tr>
+				<td>
+					配置文件类型(不代表文件后缀)
+				</td>
+				<td  style="text-align:left;">
+					<label><input id="filetype_True" name="filetype" type="radio" value="True" />"json"</label>
+					<label><input id="filetype_False" name="filetype" type="radio" value="False" />"txt" </label>
+                    <script><!--  判断选中状态  -->
+                        $("#hi_filetype").text()=="True"?$("#filetype_True").attr("checked",true):$("#filetype_False").attr("checked",true)
+                    </script>
+				</td>
+			</tr>
+
+            {% for key in html_name.configure_key  %}
+                <tr>
+                <td><input style="font-size: 17px; width:370px; " class="tableinput" name="configure_key{{ forloop.counter }}" type="text" value="{{ key }}" /></td>
+                <td><input id="configure_value{{ forloop.counter }}" style="font-size: 17px; width:370px; " class="tableinput" name="configure_value{{ forloop.counter }}"  type="text" value="" /><td>
+                <td class="counter"></td>
+                </tr>
+            {% endfor %}
+            <script><!--  填充配置文件value赋值，值在最上面  -->
+                var y=0;
+
+                $(".hi_configure_value").each(function(){
+                    y = y + 1;
+                    $("#configure_value" + y).attr("value",$(this).text())
+                })
+            </script>
+
+		</tbody>
+	</table>
+</div>
+
+<div>
+
+<span id="addtabletr">添加一行</span>
+</div>
+<div><input id="input_add" class="input_add" type="submit" value="提交"></div>
+</div>
+
+{#提交后出现的防操作div和打印信息栏#}
+<div id="light" class="white_content">
+    <p class="pressinfo"></p>
+    This is the lightbox content.<button onclick="aa()" id="myBtn">点我</button>
+    <a id="divclose" onclick="divclose()">
+    Close</a></div>
+<div id="fade" class="black_overlay"></div>
+
+
+</form>
+</div>
+{#提交之前打印的信息#}
+<script>
+    var stat = 0
+    function printdiv() {
+        $(document).ready(function(){
+            if (stat==0){
+                $.get("Jquery_get_message/",
+               function(data,status){
+
+                   $.each(data,function(name,value){
+                       if (name=='message'){
+                            $("p.pressinfo").append( value);
+                       }else {
+                           $("p.pressinfo").append("</br>" + value );
+                           if (value =='Error'){
+                               stat = 1
+                               return 1
+                           }if (value=='success'){
+                               stat = 1
+                               return 1
+                           }
+                       }
+                   });
+
+                 });
+
+            }else{return 1}
+
+        });
+    }
+{#    function aa() {#}
+{#        alert("1111");#}
+{#        document.getElementById("input_add").removeEventListener("click", aftersubmit);#}
+{#        return true;#}
+{#    }#}
+
+{#    document.getElementById("input_add").addEventListener("click", aftersubmit);#}
+    function divclose(){
+        $(document).ready(function(){
+           $("#light").hide();
+            $("#fade").hide();
+        });
+    }
+    $(document).ready(function(){
+        {#        event.preventDefault();#}
+       if($("#message").text()=='success'){
+{#           #提交服务保存后的ID#}
+           $.get('startinit/?id=' + $("#serverid").text() + "&host=" + $("#hi_host").text() +
+                   "&container=" + $("#hi_container").text() + "&gitsite=" + $("#gitsite").val() +
+                   "&environment=" + $("#hi_environment").text() + "&tag=" + $("#hi_tag").text());
+            $("#light").show();
+           $("#fade").show();
+           setInterval(printdiv,3000);
+       }
+
+    });
+
+</script>
+
+
+</body>
+</html>

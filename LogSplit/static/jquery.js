@@ -13,6 +13,5 @@ $(document).ready(function(){
 	  $(this).children(".add").hide();
   }
   );
-  $("#id_starttime").attr("type","datetime-local");
-  $("#id_stoptime").attr("type","datetime-local");
+
 });

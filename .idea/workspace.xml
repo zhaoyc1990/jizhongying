@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ChangeListManager">
     <list default="true" id="26faa1c9-7c02-4736-9cbb-1d1b117b486d" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/LogSplit/LogSplitt.py" afterPath="" />
@@ -67,6 +68,15 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/upload/09-27-08-43.log.gz" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/upload/09-27-09-04.log.gz" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/upload/09-30-11-10.log.gz" afterPath="" />
+=======
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/server/views.py" line="49" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="26faa1c9-7c02-4736-9cbb-1d1b117b486d" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+>>>>>>> dev
     </list>
     <ignored path="jizhongying.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -105,8 +115,13 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jizhongying/urls.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="308">
               <caret line="14" column="0" selection-start-line="23" selection-start-column="66" selection-end-line="25" selection-end-column="51" />
+=======
+            <state relative-caret-position="330">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="36" selection-end-column="51" />
+>>>>>>> dev
               <folding />
             </state>
           </provider>
@@ -115,8 +130,13 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/host/views.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="440">
               <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+=======
+            <state relative-caret-position="462">
+              <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
+>>>>>>> dev
               <folding>
                 <element signature="e#15#50#0" expanded="true" />
               </folding>
@@ -124,7 +144,11 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="operate_file.html" pinned="false" current-in-tab="true">
+=======
+      <file leaf-file-name="operate_file.html" pinned="false" current-in-tab="false">
+>>>>>>> dev
         <entry file="file://$PROJECT_DIR$/host/templates/operate_file.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -134,11 +158,43 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="hostlist.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/host/templates/hostlist.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="154">
               <caret line="7" column="24" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="31" />
+=======
+      <file leaf-file-name="hostinfo.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/host/templates/hostinfo.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="244">
+              <caret line="115" column="17" selection-start-line="115" selection-start-column="17" selection-end-line="115" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addserver.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/templates/addserver.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3652">
+              <caret line="166" column="39" selection-start-line="166" selection-start-column="39" selection-end-line="166" selection-end-column="39" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1478832393445" expanded="false" signature="9357:9369" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hostlist.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/host/templates/hostlist.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="11" column="31" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="31" />
+>>>>>>> dev
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -146,6 +202,21 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="902">
+              <caret line="52" column="29" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="29" />
+              <folding>
+                <element signature="e#15#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+>>>>>>> dev
       <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
         <entry file="file://C:/Python27/Lib/site-packages/django/http/response.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -159,8 +230,13 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/host/models.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="462">
               <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+=======
+            <state relative-caret-position="550">
+              <caret line="28" column="24" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="24" />
+>>>>>>> dev
               <folding />
             </state>
           </provider>
@@ -969,8 +1045,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/host/models.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="462">
           <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
+=======
+        <state relative-caret-position="550">
+          <caret line="28" column="24" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="24" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
@@ -987,7 +1068,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="902">
           <caret line="52" column="29" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="29" />
+<<<<<<< HEAD
           <folding />
+=======
+          <folding>
+            <element signature="e#15#24#0" expanded="true" />
+          </folding>
+>>>>>>> dev
         </state>
       </provider>
     </entry>
@@ -998,22 +1085,46 @@
           <folding>
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+<<<<<<< HEAD
+=======
+            <marker date="1478832393445" expanded="false" signature="9357:9369" ph="..." />
+>>>>>>> dev
           </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/jizhongying/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="0" selection-start-line="23" selection-start-column="66" selection-end-line="25" selection-end-column="51" />
+=======
+    <entry file="file://$PROJECT_DIR$/host/templates/operate_file.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jizhongying/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="0" selection-start-line="23" selection-start-column="66" selection-end-line="25" selection-end-column="51" />
+        <state relative-caret-position="330">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="36" selection-end-column="51" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/host/views.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="440">
           <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+=======
+        <state relative-caret-position="462">
+          <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
+>>>>>>> dev
           <folding>
             <element signature="e#15#50#0" expanded="true" />
           </folding>
@@ -1022,8 +1133,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/host/templates/hostlist.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="154">
           <caret line="7" column="24" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="31" />
+=======
+        <state relative-caret-position="242">
+          <caret line="11" column="31" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="31" />
+>>>>>>> dev
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
@@ -1038,6 +1154,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/host/templates/operate_file.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1046,5 +1163,7 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> dev
   </component>
 </project>

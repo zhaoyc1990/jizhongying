@@ -3,21 +3,33 @@
 <head>
 	 <link href="{% url 'index' %}static/mystyle.css" rel="stylesheet" type="text/css"/>
     
-	<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="{% url 'index' %}static/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="{% url 'index' %}static/jquery.js"></script>
 	</head>
 <body>
 <div id="top" style="">
 <div id="homediv" class="home"><span id="home"><a class="topa" href="{% url 'index' %}">主页</a></span></div>
+
 <div id="homediv" class="rongqi"><span id="home"><a class="topa" href="{% url 'logsplit' %}">日志截取</a></span></div>
+
 <div id="addlist" class="addlist">
-<div id="homediv" class="addlist" ><span id="home"><a class="topa" href="">操作</a></span></div>
-<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'addhost' %}">主机</a></span></div>
-<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'operatefile' %}">文件</a></span></div>
+	<div id="homediv" class="addlist" ><span id="home"><a class="topa" href="">操作</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'addhost' %}">主机</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'operatefile' %}">文件</a></span></div>
+	<div id="homediv" class="add">  <span id="home"><a class="topa" href="{% url 'server' %}">服务</a></span></div>
 </div>
+
+<div id="addlist" class="addlist">
+<div id="homediv" class="addlist" ><span id="home"><a class="topa" href="">服务</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'addserver' %}">添加</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'showhostlist' %}">切换</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'showhostlist' %}">配置</a></span></div>
+</div>
+
+
 <div id="addlist" class="addlist">
 <div id="homediv" class="addlist" ><span id="home"><a class="topa" href="">查看列表</a></span></div>
-<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'showhostlist' %}">主机</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'showhostlist' %}">主机</a></span></div>
 </div>
 </div>
 

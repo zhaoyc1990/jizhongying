@@ -10,17 +10,79 @@
 </div>
 <div class="form">
 <div style="height:10px"></div>
-{% for host in hostlist %}
-<div id="hostlist_id">
-<span id="hostname">
-<a href="">
-{{ host.name }}
-</a>
-<span>
-</div>
-{% endfor %}
+<table id="host_list">
+<tbody>
+    <th></th>
+    <tr id="hosttr-1">
+        <th>分组:</th><td>
+                            <select class="group" name="group" style="text-align:left;">
+                            <option value="0" checked>全部</option>
+                            {% for key, value in grouplist.items %}
+                            <option value="{{ key }}" checked>{{ value }}</option>
+                            {% endfor %}
+					</select>
+
+                        </td>
+    </tr>
+    <tr>
+        <td>序列号</td><td>主机名</td><td>状态</td>
+    </tr>
+
+    {% for key, value in  hostlist.items %}
+    <tr id="hosttr{{ forloop.counter }}" class="hosttr">
+    <td>{{ forloop.counter }}</td><td><a href="gethostinfo/?hostid={{ key }}">{{ value }}</a></td>
+    </tr>
+    {% endfor %}
+
+</tbody>
+</table>
+
 </div>
 
 </form>
+<script>
+    $(document).ready(function(){
+        //table 单数加背景颜色
+        addbackground($(".hosttr").length);
+
+        //分组下拉菜单内容改变，动态加载主机内容
+       $(".group").change(function(){
+           if ($(this).val()=='None'){}else{
+               $.get("getJsGroupinfo/?groupid=" + $(this).val(),
+            function(data, status){
+                if (status=='success'){
+                    removetr($(".hosttr").length)
+                    addNewHost(data)
+                    addbackground($(".hosttr").length);
+                    if(name=='message'){
+                        alert(value)
+                        return 1
+                    }
+                }
+            });
+           }
+       });
+        function removetr(length){
+            for (i=1;i<length+1;i++){
+                $("table #hosttr"+i).remove();
+            }
+        }
+        function addbackground(count){
+            for (i=1;i<count+1;i=i+2){
+                $("table #hosttr"+i).attr('style','background: aliceblue');
+            }
+        }
+        function addNewHost(data){
+            var i = 1;
+            var va = "";
+            $.each(data,function(key, value){
+                va = "<tr id=\"hosttr" + i + "\" class=\"hosttr\"" + "><td>" + i +
+                        "</td><td><a href=\"gethostinfo/?hostid=" + key + "\">" + value + "</a></td></tr>"
+                $("#host_list").append(va)
+                i = i+1;
+            })
+        }
+    });
+</script>
 </body>
 </html>

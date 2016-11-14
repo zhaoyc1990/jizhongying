@@ -71,5 +71,19 @@ a:link {
 	overflow: hidden;
 	padding: 10px;
 	font-size: 13px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 30px solid #eee;
+}
+.form_next{
+	float: left;
+    width: 550px;
+	overflow: hidden;
+	padding: 10px;
+	padding-top:10px;
+	font-size: 13px;
+	border-bottom: 30px solid #eee;
+}
+#form_td{
+	font-weight: bold;
+	float:right;
+	
 }
