@@ -42,8 +42,7 @@ textarea{
 	background: #666666;
 	padding: 6px 10px;
 }
-	
-}
+
 #hostlist_id{
 	height:30px;
 	width:auto;
@@ -74,9 +73,7 @@ a:link {
 	border-bottom: 30px solid #eee;
 }
 .form_next{
-	float: left;
     width: 550px;
-	overflow: hidden;
 	padding: 10px;
 	padding-top:10px;
 	font-size: 13px;

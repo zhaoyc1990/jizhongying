@@ -6,7 +6,7 @@ import os
 import time
 import datetime
 class LogSplit:
-	def __init__(self, host, starttime, stoptime, srcfile, destfile, forwarding_host=None, conport=None):
+	def __init__(self, host, starttime, stoptime, srcfile, destfile, forwarding_host=None, conport=None, linenum=None):
 		#服务真正所在主机信息
 		self.host = host
 		self.starttime = starttime
@@ -18,6 +18,7 @@ class LogSplit:
 		#跳板机主机信息
 		self.forwarding_host= forwarding_host
 		self.conport = conport
+		self.linenum = linenum
 	def abc(self):
 		return self.host
 		
@@ -121,7 +122,10 @@ class LogSplit:
 			
 			#短连接服务日期格式为2016-08-19 10:10:01
 			#拼接截取命令
-			cmdb = 'sed -n \'/' + self.starttime + '/,/' + self.stoptime + '/p\' ' + SrcFilePath +' > ' + DestFilePath
+			if self.linenum:
+				cmdb = 'tail -n ' + self.linenum + ' ' +  SrcFilePath + ' > ' + DestFilePath
+			else:
+				cmdb = 'sed -n \'/' + self.starttime + '/,/' + self.stoptime + '/p\' ' + SrcFilePath +' > ' + DestFilePath
 			print cmdb
 			stdin, stdout, stderr = ssh.exec_command(cmdb)
 			#如有服务器返回错误，则判定此次操作失败

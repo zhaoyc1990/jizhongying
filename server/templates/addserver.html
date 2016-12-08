@@ -150,6 +150,7 @@ $(document).ready(function(){
 </script>
 </head> 
 <body>
+<span id="random">{{ random }}</span>
 <span id="serverid" style="display:none">{{ serverid }}</span>
 <span id="hi_container" style="display:none">{{ html_name.container }}</span>
 <span id="hi_host"      style="display:none">{{ html_name.host }}</span>
@@ -296,7 +297,7 @@ $(document).ready(function(){
 					版本库地址：
 				</td>
 				<td class="input">
-					<input id="gitsite" style="font-size: 17px; width:370px; " class="tableinput" name="gitsite" type="url" value="{{ html_name.gitsite }}" />
+					<input id="gitsite" style="font-size: 17px; width:370px; " class="tableinput" name="gitsite" type="text" value="{{ html_name.gitsite }}" />
 				</td>
 			</tr>
 			<tr>
@@ -306,11 +307,11 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					key与value 的赋值符号
+					换行符号
 				</td>
 				<td  style="text-align:left;">
-					<label><input id="symbol_True" name="symbol" type="radio" value="True" />":冒号"</label>
-					<label><input id="symbol_False" name="symbol" type="radio" value="False"  />"=等于号" </label>
+					<label><input id="symbol_True" name="symbol" type="radio" value="True" />"\n"</label>
+					<label><input id="symbol_False" name="symbol" type="radio" value="False"  />"\r\n" </label>
 				</td>
                 <script><!--  判断选中状态  -->
                         $("#hi_symbol").text()=="True"?$("#symbol_True").attr("checked",true):$("#symbol_False").attr("checked",true)
@@ -350,7 +351,7 @@ $(document).ready(function(){
 </div>
 
 <div>
-
+<a onclick="wocao()">href</a>
 <span id="addtabletr">添加一行</span>
 </div>
 <div><input id="input_add" class="input_add" type="submit" value="提交"></div>
@@ -358,10 +359,15 @@ $(document).ready(function(){
 
 {#提交后出现的防操作div和打印信息栏#}
 <div id="light" class="white_content">
+{#    进度详情#}
     <p class="pressinfo"></p>
-    This is the lightbox content.<button onclick="aa()" id="myBtn">点我</button>
-    <a id="divclose" onclick="divclose()">
-    Close</a></div>
+{#    进度条#}
+    <p class="progress_bar"></p>
+{#    结束按钮#}
+    <span class="closehref" style="display:none">
+        <a id="myBtn" _fcksavedurl="#" style="cursor:pointer">继续</a>
+    <a id="divclose"  _fcksavedurl="#" style="cursor:pointer" onclick="divclose()">Close</a>
+    </span></div>
 <div id="fade" class="black_overlay"></div>
 
 
@@ -369,25 +375,54 @@ $(document).ready(function(){
 </div>
 {#提交之前打印的信息#}
 <script>
+    function wocao() {
+        alert("7")
+        location.href='/hostlist/gethostinfo/?hostid=';
+    }
+
+{#    stat 变量是为了控制请求#}
     var stat = 0
     function printdiv() {
         $(document).ready(function(){
-            if (stat==0){
-                $.get("Jquery_get_message/",
+            if (stat==0){ {#                开始GET请求#}
+                $.get("Jquery_get_message/" +$("#random").text(),
                function(data,status){
-
+{#                    获取返回数据开始处理#}
                    $.each(data,function(name,value){
                        if (name=='message'){
                             $("p.pressinfo").append( value);
                        }else {
-                           $("p.pressinfo").append("</br>" + value );
-                           if (value =='Error'){
-                               stat = 1
-                               return 1
-                           }if (value=='success'){
-                               stat = 1
-                               return 1
-                           }
+{#                           $("p.pressinfo").append("</br>" + value );#}
+
+                           $.each(value,function(ke,va){
+                               if (va=='Error' | va =='success'){
+                                   $("p.pressinfo").append(va +"<br>");
+                                   closehref(va)
+                                   stat = 1
+                                   return 1
+                               }else{
+                                   $("p.pressinfo").append(va +"<br>");
+
+                               }
+{#                               var obj = eval("(" + va + ")");#}
+{#                               if (obj['status'] == 'Downloading' | obj['status'] == 'Extracting'){#}
+{#                                    showdis(obj['status'], obj['progress'])#}
+{#                                }else{#}
+                                   {# 报错或者完成提示停止循环请求#}
+{#                                   if (obj['message'] =='Error' | obj['message']=='success' ){#}
+{#                                        stat = 1#}
+{#                                       $("p.progress_bar").append(obj['message']);#}
+{#                                       出现错误或完成再出现点按钮#}
+{#                                         closehref(obj['message'])#}
+{#                                        return 1#}
+{#                                   }else {#}
+{#                                       正常输出#}
+{#                                       $("p.pressinfo").append(va +"<br>");#}
+{#                                   }#}
+{##}
+{#                               }#}
+
+                           });
                        }
                    });
 
@@ -397,12 +432,26 @@ $(document).ready(function(){
 
         });
     }
-{#    function aa() {#}
-{#        alert("1111");#}
-{#        document.getElementById("input_add").removeEventListener("click", aftersubmit);#}
-{#        return true;#}
-{#    }#}
-
+    function showdis(a,b) {
+         $("p.progress_bar").empty();
+         $("p.progress_bar").append(a + b);
+    }
+    function closehref(message){
+        $(document).ready(function(){
+            host_id = $("#hi_host").text()
+            $(".closehref").show()
+            if (message == 'Error '){
+                $("#myBtn").click(function(){
+                location.href('#')
+                });
+            }
+            if (message == 'success'){
+                 $("#myBtn").click(function(){
+                     location.href='/hostlist/gethostinfo/?hostid=' + host_id;
+                });
+            }
+        });
+    }
 {#    document.getElementById("input_add").addEventListener("click", aftersubmit);#}
     function divclose(){
         $(document).ready(function(){
@@ -411,16 +460,19 @@ $(document).ready(function(){
         });
     }
     $(document).ready(function(){
-        {#        event.preventDefault();#}
+       event.preventDefault();
        if($("#message").text()=='success'){
 {#           #提交服务保存后的ID#}
            $.get('startinit/?id=' + $("#serverid").text() + "&host=" + $("#hi_host").text() +
                    "&container=" + $("#hi_container").text() + "&gitsite=" + $("#gitsite").val() +
-                   "&environment=" + $("#hi_environment").text() + "&tag=" + $("#hi_tag").text());
+                   "&environment=" + $("#hi_environment").text() + "&tag=" + $("#hi_tag").text() +
+                    "&random=" + $("#random").text());
             $("#light").show();
            $("#fade").show();
            setInterval(printdiv,3000);
        }
+
+
 
     });
 

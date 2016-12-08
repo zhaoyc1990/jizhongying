@@ -23,6 +23,7 @@ class LogSplit(models.Model):
 	server = models.ForeignKey(servicename, related_name='servicename_set', blank=True, null=True)
 	starttime = models.CharField(u'要截取的开始时间', max_length=30)
 	stoptime = models.CharField(u'要截取的截止时间', max_length=30)
+	linenum	= models.IntegerField(u'最后多少行',blank=True, null=True)
 	logfilename = models.CharField(u'日志文件名(默认console.log)', max_length=60, default='console.log', blank=True, null=True)
 	creatfilename = models.CharField(u'要生成的文件名(默认当前时间)',max_length=60, blank=True, null=True)
 	createtime = models.DateTimeField(u'创建/添加日期', default = timezone.now)
