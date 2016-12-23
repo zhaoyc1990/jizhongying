@@ -1,9 +1,6 @@
 upload/
 
 *.sqlite3
-<<<<<<< HEAD
 *.pyc
-=======
 
->>>>>>> dev
-./.idea/
+.idea/

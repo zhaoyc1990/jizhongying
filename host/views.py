@@ -1,9 +1,12 @@
 # coding:utf-8
+import random
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .forms import AddHost
 from .forms import Operatefile
 from host.models import hostinfo, Group
+from server.models import Server,Environment
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def addhost(request):
@@ -35,7 +38,7 @@ def operatefile(request):
 		#hostnames = hostinfo.objects.filter()
 	return render(request, 'operate_file.html', {'form': form})
 	
-	
+#查看各分组主机状态 由这里可以进入各主机所运行的服务状态
 def hostlist(request):
 	grouplist = Group.objects.all()
 	listgroup = {}
@@ -57,7 +60,7 @@ def hostlist(request):
 def getJsGroupinfo(request):
 	group_id= request.GET.get('groupid','')
 	if group_id == '':
-		return JsonResponse({'message':'分组ID没传过来，别把它玩错了'})
+		return JsonResponse({'message':'分组ID没传过来，别把它玩坏了'})
 	elif group_id == '0':
 		hostlist = hostinfo.objects.all()
 	else:
@@ -67,9 +70,29 @@ def getJsGroupinfo(request):
 		for host in hostlist:
 			listhost.update(host.getid())
 	else:
-		return JsonResponse({'message': '没找到分组ID，别把它玩错了'})
+		return JsonResponse({'message': '没找到分组ID，别把它玩坏了'})
 	return JsonResponse(listhost)
 
-
+#显示指定主机各服务状态和可行操作
 def gethostinfo(request):
-	return render(request, 'hostinfo.html', {'message': '...', })
+    try:
+        host_id = request.GET.get('hostid','')
+        if host_id == '':
+            return render(request, 'hostinfo.html', {'message': 'None', })
+        else:
+            #从DB里查找所有运行在host_id 里的服务
+            server_query = Server.objects.values('id','name_Zh','name_En','port','curr_tag','server_status','container_id').filter(server_host=host_id)
+            if server_query.exists():
+                #查询的集合放到type be list to server_list
+                server_list = []
+                print u'不为空'
+                for server in server_query:
+                    server_list.append(server)
+            else:
+                return render(request, 'hostinfo.html', {'message': '该主机下没有服务', })
+    except Exception , e:
+        print u'出错了：' + e.__str__()
+        return render(request, 'hostinfo.html', {'message': 'None', })
+    print u'有返回'
+    randomm =  random.randint(1, 100)
+    return render(request, 'hostinfo.html', {'message': 'success','server_list':server_list,'randomm':randomm})

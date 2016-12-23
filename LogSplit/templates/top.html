@@ -10,7 +10,15 @@
 <div id="top" style="">
 <div id="homediv" class="home"><span id="home"><a class="topa" href="{% url 'index' %}">主页</a></span></div>
 
-<div id="homediv" class="rongqi"><span id="home"><a class="topa" href="{% url 'logsplit' %}">日志截取</a></span></div>
+<!-- <div id="homediv" class="rongqi"><span id="home"><a class="topa" href="{% url 'logsplit' %}">日志截取</a></span></div> -->
+
+<div id="addlist" class="addlist">
+	<!-- <div id="homediv" class="addlist" ><span id="home"><a class="topa" href="">&nbsp;日志</a></span></div> -->
+    <div id="homediv" class="addlist" ><span id="home">日志</span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'logsplit' %}">截取</a></span></div>
+	<div id="homediv" class="add"><span id="home"><a class="topa" href="{% url 'tailflog' %}">实时</a></span></div>
+	<div id="homediv" class="add">  <span id="home"><a class="topa" href="{% url 'server' %}">指定行</a></span></div>
+</div>
 
 <div id="addlist" class="addlist">
 	<div id="homediv" class="addlist" ><span id="home"><a class="topa" href="">操作</a></span></div>

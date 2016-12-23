@@ -7,6 +7,9 @@ td {
 	font:16px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
 	text-align:right;
 }
+ul {
+    list-style:none;
+}
 #tabletitle{
 	font:18px/1.5 "Microsoft Yahei",Tahoma, Helvetica, Arial, "SimSun", sans-serif;
 	color:#ffffff;
@@ -30,9 +33,57 @@ td {
       position: absolute;
       top: 25%;  left: 25%;
       width: 50%;  height: 50%;
-      padding: 16px;  border: 16px solid orange;  background-color: white;  z-index:1002;  overflow: auto;
+      padding: 16px;  border: 4px solid rgba(66, 62, 74, 0.43);
+      background-color: white;  z-index:1002;  overflow: auto;
+  }
+{#  操作 ul li --------start-----------#}
+.operat_ul {
+    margin:0px;
+    padding:0px;
+}
+.operat_ul li {
+    float:right;
+    margin-left:15px;
+    cursor:pointer;
+}
+.operat_ul li:hover {
+    color:blue;
+}
+.operat_ul li ul {
+    margin:0px;
+    padding:0px;
+    cursor: auto;
+}
+.operat_ul li ul:hover {
+    color:#434343;
+}
+.operat_ul li ul li{
+    float:none;
+    padding: 0px;
+    margin: 0px;
+}
+{#  操作 ul li --------end------------#}
+
+
+{#  确认框 ----start--------#}
+ #verify{
+     display: none;
+      position: absolute;
+      top: 25%;  left: 25%;
+      padding: 16px;  border: 4px solid rgba(66, 62, 74, 0.43);
+      background-color: white;  z-index:1002;  overflow: auto;
   }
 
+ #verify li {
+    padding:20px;
+    color:blue;
+   }
+ #verify li:hover {
+     color:#007eff;
+     font-size: 16px;
+     cursor:pointer;
+ }
+ {#  确认框 ----end--------#}
 
 {#<!-- input 样式  -->#}
 .tableinput{
@@ -100,6 +151,8 @@ td {
 
 </head> 
 <body>
+<span id="hi_randomm" style="display:none">{{ randomm }}</span>
+<span id="hi_select_tag" style="dispaly:none"></span>
 <div class="shangxiadq">
 {% include 'top.html' %}
 </div>
@@ -118,13 +171,296 @@ td {
                 <td>En</td><td>中文名</td><td>端口</td><td>当前版本</td><td>状态</td><td>操作</td>
             </tr>
             <tr>
-            <td>English</td><td>某某</td><td>80:90</br>88:89</td><td>5.6.7.9</td><td>running</td><td>修改配nbsp;版本切nbsp;部署nbsp;删除nbsp;</td>
+            <td>English</td><td>某某</td><td>80:90</br>88:89</td><td>5.6.7.9</td><td>running</td><td>修改配&nbsp;&nbsp;版本切&nbsp;&nbsp;部署&nbsp;&nbsp;删除&nbsp;&nbsp;</td>
             </tr>
+            {% if message == 'success' %}
+                {% for dictforserver in server_list %}
+                    <tr id="serverlist{{ forloop.counter }}" class="serverlist{{ dictforserver.id }}">
+                    <td>{{ dictforserver.name_En }}</td><td>{{ dictforserver.name_Zh }}</td><td>{{ dictforserver.port }}</td>
+
+
+                    <td class="{{ dictforserver.id }}curr_tag">{{ dictforserver.curr_tag }}</td>
+                    {% if not dictforserver.container_id == None %}
+                        {% if dictforserver.server_status %}
+                            <td id="{{ dictforserver.id }}status" style="color:green;">running</td>
+                        {% else %}
+                            <td id="{{ dictforserver.id }}status" style="color:red;">Stoped}</td>
+                        {% endif %}
+                    {% else %}
+                        <td id="{{ dictforserver.id }}status" style="color:sandybrown;">未生成</td>
+                    {% endif %}
+                        <td style="font-size:14px;">
+                            <ul class="operat_ul">
+                                <li>
+                                    <ul>
+                                        <li class="more">更多</li>
+                                        <li id="restart" style="display:none;">重启</li>
+                                        <li id="stop" style="display:none;">停止</li>
+                                        <li id="start" style="display:none;">启动</li>
+
+                                    </ul>
+                                </li>
+
+                                <li class="rm_server">删除</li>
+
+                                <li class="version_switch">版本切</li>
+                                <li class="version_switch">修改配</li>
+                            </ul>&nbsp;
+                            &nbsp;&nbsp;</td><td class="server_id" style="display:none">{{ dictforserver.id }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <span style="color:red;">{{ message }}</span>
+            {% endif %}
         </tbody>
     </table>
 </div>
 
 </div>
+<div id="light" class="white_content">
+{#    版本选择器#}
+    <span>
+        <table id="info_table">
+            <tr id="tr_switch_curr_tag" style="display:none"><th>当前版本号：</th><th id="switch_curr_tag"></th>
+            </tr>
+            <tr>
+                <th>版本号切换为：</th>
+                <th>
+                    <select id="select_tag">
 
+                   </select>
+                </th>
+                <th> <p id="tag_deploy" _fcksavedurl="#" style="cursor:pointer">部署</p></th><th id="server_id_deploy" style="display:none;">33</th>
+           </tr>
+        </table>
+    </span>
+{#    进度详情#}
+    <p class="pressinfo"></p>
+{#    进度条#}
+    <p class="progress_bar"></p>
+{#    结束按钮#}
+    <span class="closehref" style="">
+
+    <a id="divclose"  _fcksavedurl="#" style="color:blue;cursor:pointer;" onclick="divclose()">Close</a>
+    </span></div>
+
+<div id="verify">
+    <ul style="list-style:none; margin-left:11px;padding:0;">
+        <li id="confirm" style="float:left;">确认</li>
+        <li id="cancel" style="float:left;">取消</li>
+    </ul>
+</div>
+<div id="fade" class="black_overlay"></div>
+
+<script>
+    $(document).ready(function(){
+
+
+        {#            开始循环请求数据输出过程状态#}
+         var stat = 0;
+
+{#        点击部署的事件，获取版本号列表#}
+        $(".deploy").click(function(){
+{#            获取server_id#}
+            server_id = $(this).parent().siblings(".server_id").text()
+{#            清空进度消息#}
+            $(".pressinfo").empty()
+{#            锁定页面#}
+            $("#server_id_deploy").empty()
+            $(".white_content").show()
+            $(".black_overlay").show()
+            $("#info_table").show()
+{#            一个隐藏th 放入server_id#}
+            $("#server_id_deploy").append(server_id)
+{#            清空select 添加版本列表#}
+            addtag(server_id)
+        });
+{#        选择版本号后，点击部署按钮的事件#}
+        $("#tag_deploy").click(function(){
+            stat = 0 {#请求锁打开#}
+{#            请求部署动作#}
+            ser_id = $("#server_id_deploy").text()
+            select_tag = $("#select_tag").val()
+            $.post('/server/deploy/',{
+                    server_id:ser_id,
+                    tag:select_tag,
+                    randomm:$("#hi_randomm").text()
+                    },function(date, status){
+               if(status == 'success'){
+                   $("#hi_select_tag").text(select_tag)
+                   alert(date['message'])
+               }
+            });
+            setInterval(function(){printdiv(ser_id)},3000);
+        });
+{#        删除服务点击事件#}
+        var serr_id = 0;
+        $(".rm_server").click(function(){
+            serr_id = $(this).parent().parent().siblings(".server_id").text()
+            $(".black_overlay").show()
+            $("#verify").show();
+        });
+{#       确认按键点击事件#}
+        $("#confirm").click(function(){
+            $("#verify").hide();
+           rm_server_two()
+        });
+{#        取消按键点击事件#}
+        $("#cancel").click(function(){
+            $(".black_overlay").hide()
+            $("#verify").hide();
+        });
+        function rm_server_two(){
+            server_id = serr_id
+            {#            清空进度消息#}
+            $(".pressinfo").empty()
+{#            锁定页面#}
+            $("#server_id_deploy").empty()
+            $(".white_content").show()
+            $(".black_overlay").show()
+            $("#info_table").hide()
+{#            告诉服务器删除ID为server_id的服务#}
+{#            test($(this).parent().parent())#}
+            rm_server(server_id)
+{#            开启循环获取执行过程中的消息#}
+            setInterval(function(){printdiv(server_id, 'rm_server')},3000);
+        };
+        function test(aa){
+            if( !aa) { aa='wo'}
+            aa.hide() }
+
+        function printdiv(ser_id, actionn){
+            if (!actionn) { actionn='deploy';}
+             if (stat==0){ {#                开始GET请求#}
+                $.get("/addserver/Jquery_get_message/" +$("#hi_randomm").text(),
+               function(data,status){
+{#                    获取返回数据开始处理#}
+                   $.each(data,function(name,value){
+                       if (name=='message'){
+                            $("p.pressinfo").append( value);
+                       }else {
+{#                           $("p.pressinfo").append("</br>" + value );#}
+
+                           $.each(value,function(ke,va) {
+                               if (va.indexOf('Error')>-1 || va == 'success') {
+                                   $("p.pressinfo").append(va + "<br>");
+{#                                   运行状态更改#}
+                                   if(va == 'success'){
+                                       if(actionn == 'deploy'){
+                                           $("#" + ser_id + "status").empty();
+                                           $("#" + ser_id + "status").append("running");
+                                           $("." + ser_id + "curr_tag").text($("#hi_select_tag").text());
+
+                                           $("#" + ser_id + "status").attr("style","color:green");
+                                       }
+
+                                       if (actionn == "rm_server"){
+                                           $(".serverlist" + ser_id).hide()
+                                       }
+
+                                   }
+                                   stat = 1
+                                   return 1
+                               } else {
+                                   $("p.pressinfo").append(va + "<br>");
+
+                               }
+                           })
+                       }
+                   })
+               })
+             }
+        }
+{#        ####版本切换##################################}
+        $(".version_switch").click(function(){
+            server_id = $(this).parent().parent().siblings(".server_id").text();
+            $("#switch_curr_tag").empty();
+            $("#switch_curr_tag").append($(this).parent().parent().siblings("." + server_id + "curr_tag").text());
+            $("#tr_switch_curr_tag").show();
+            $(".pressinfo").empty()
+{#            锁定页面#}
+            $("#server_id_deploy").empty()
+            $(".white_content").show()
+            $(".black_overlay").show()
+{#            一个隐藏th 放入server_id#}
+            $("#server_id_deploy").append(server_id)
+{#            清空select 添加版本列表#}
+            addtag(server_id)
+        });
+{#        ###################################################}
+{#        ###点击更多的事件#######start####################################}
+{#        var more_cout = 1   {# ###更多  点击次数判断是隐藏还 是显示### #}
+        $(".more").click(function(){
+            var dis = $(this).siblings().css("display");
+            if (dis == 'none'){
+                $(this).siblings().show();
+            }else{
+                $(this).siblings().hide();
+            }
+        });
+        $("#restart").click(function(){
+            aa = 'restart'
+            restart_server_id = $(this).parent().parent().parent().parent().siblings(".server_id").text();
+            more_operat(aa, restart_server_id)
+        });
+        $("#start").click(function(){
+            aa = 'start'
+            start_server_id = $(this).parent().parent().parent().parent().siblings(".server_id").text();
+            more_operat(aa, start_server_id)
+        })
+        $("#stop").click(function(){
+            aa = 'stop'
+            stop_server_id = $(this).parent().parent().parent().parent().siblings(".server_id").text();
+            more_operat(aa, stop_server_id)
+        })
+        function more_operat(actionn, serrr_id){
+            cc = $("#hi_randomm").text();
+            $.get('/server/more/' + actionn + '/' + serrr_id + '/' + cc,function(date,status){
+                alert(date)
+            });
+        }
+
+
+
+{#        ###点击更多的事件#######end####################################}
+{#        动态获取代码版本#}
+        function addtag(server_id){
+            $.get('/server/getservertags/' + server_id, function(date,status){
+                $("#select_tag").empty()
+                if (status == 'success'){
+                    $.each(date,function(key,value){
+                        if (key == 'message'){
+                            $(".pressinfo").append(value)
+                        }else{
+                            $("#select_tag").append("<option value=" + value  + ">" + value + "</option>")
+                        }
+                    });
+                }
+            });
+        }
+{#        GET 发送删除服务参数#}
+        function rm_server(server_id){
+             $.get('{% url 'rm_server' %}/?server_id=' + server_id + '&random=' + $("#hi_randomm").text(), function(date,status){
+                $("#select_tag").empty()
+                if (status == 'success'){
+                    if (date['message'].indexOf('Error')){
+
+                    }
+                }
+            });
+        }
+    });
+
+    function divclose(){
+        $(document).ready(function(){
+           $("#light").hide();
+            $("#fade").hide();
+            $("#switch_curr_tag").empty();
+            $("#tr_switch_curr_tag").hide();
+        });
+    }
+
+
+</script>
 </body>
 </html>

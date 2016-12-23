@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'LogSplit',
 	'host',
 	'server'
@@ -53,6 +54,18 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'jizhongying.urls'
+
+redis_host = os.environ.get('REDIS_HOST', 'localhost')
+CHANNEL_LAYERS = {
+    "default": {
+        # This example app uses the Redis channel layer implementation asgi_redis
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(redis_host, 6379)],
+        },
+        "ROUTING": "jizhongying.routing.channel_routing",
+    },
+}
 
 TEMPLATES = [
     {
