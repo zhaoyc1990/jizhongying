@@ -45,11 +45,12 @@ class Server(models.Model):
     server_host =    models.ForeignKey(hostinfo,related_name='host_pid',)
     is_container = models.BooleanField(u'服务是否在容器里',default=False)
     server_environment = models.ForeignKey(Environment,related_name='environment_id',blank=True, null=True) #环境 pid
-    server_conf = models.ManyToManyField(ConfigureFile, related_name='configurefile', blank=True, null=True)
+    server_conf = models.ManyToManyField(ConfigureFile, related_name='configurefile',blank=True)            #配置文件
     port = models.CharField(u'服务端口', max_length=50, blank=True, null=True)
     gitsite = models.CharField(u'GIT仓库地址', max_length=80,blank=True,null=True)
     curr_tag = models.CharField(u'当前代码版本号', max_length=30, blank=True,null=True)  #代码当前版本号
     curr_env_tag = models.CharField(u'当前环境版本号', max_length=30, blank=True, null=True)
+    ignore_file = models.TextField(u'部署时忽略文件', blank=True, null=True)
     container_id = models.CharField(u'容器ID', max_length=50, blank=True,null=True)
     server_status = models.BooleanField(u'容器状态', default=True)
     modified = models.DateTimeField(u'最后修改日期', auto_now=True)
@@ -73,3 +74,15 @@ class HttpChannel(models.Model):
             return None
         print self.message
         return {self.id: self.message}
+
+class Channelforlog(models.Model):
+    """
+    当第一个人进入通道时，添加一个通道组_ID,第二，三，四....个人进入通信时，会先查询
+    是否有此通道，如已有此通信组，就不会再添加,但会添加通道组人数个数
+    当最后一个人关闭websocket 时，会删除此通道组
+    """
+    channel_id = models.CharField(u'每个通道组_ID',max_length=20, blank=True, null=True,unique=True)
+    group_num = models.IntegerField(u'每个通道组的人数', blank=True, null=True)
+    enforce = models.BooleanField(u'是否已经强制打印', default=False)
+    def __unicode__(self):
+        return self.channel_id

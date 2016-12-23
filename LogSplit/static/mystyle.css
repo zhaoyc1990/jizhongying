@@ -23,7 +23,8 @@ body {
 #home{
 	line-height:30px;
 	font-size:20px;
-	color:#ffffff;
+	color:#000033;
+	cursor:pointer;
 	font-weight:bold;
 }
 #homediv{

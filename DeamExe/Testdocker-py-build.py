@@ -73,32 +73,52 @@
     # # print mak_tar(r'D:\YYGameBox', r'D:\123')
 
     ########################################################################################################
-from bottle import request, Bottle, abort
-from geventwebsocket import WebSocketError
-from gevent.pywsgi import WSGIServer
-from geventwebsocket.handler import WebSocketHandler
-from websocket import create_connection
-app = Bottle()
-users = set()
-@app.get('/websocket/')
-def handle_websocket():
-    wsock = request.environ.get('wsgi.websocket')
-    users.add(wsock)
-    if not wsock:
-        abort(400, 'Expected WebSocket request.')
-    while True:
-        try:
-            message = wsock.receive()
-        except WebSocketError:
-            break
-        print u"现有连接用户：%s" % (len(users))
-        if message:
-            for user in users:
-                try:
-                    user.send(message)
-                except WebSocketError:
-                    print u'某用户已断开连接'
-    # 如果有客户端断开，则删除这个断开的websocket
-    users.remove(wsock)
-server = WSGIServer(("0.0.0.0", 8000), app, handler_class=WebSocketHandler)
-server.serve_forever()
+# from bottle import request, Bottle, abort
+# from geventwebsocket import WebSocketError
+# from gevent.pywsgi import WSGIServer
+# from geventwebsocket.handler import WebSocketHandler
+# from websocket import create_connection
+# app = Bottle()
+# users = set()
+# @app.get('/websocket/')
+# def handle_websocket():
+#     wsock = request.environ.get('wsgi.websocket')
+#     users.add(wsock)
+#     if not wsock:
+#         abort(400, 'Expected WebSocket request.')
+#     while True:
+#         try:
+#             message = wsock.receive()
+#         except WebSocketError:
+#             break
+#         print u"现有连接用户：%s" % (len(users))
+#         if message:
+#             for user in users:
+#                 try:
+#                     user.send(message)
+#                 except WebSocketError:
+#                     print u'某用户已断开连接'
+#     # 如果有客户端断开，则删除这个断开的websocket
+#     users.remove(wsock)
+# server = WSGIServer(("0.0.0.0", 8000), app, handler_class=WebSocketHandler)
+# server.serve_forever()
+
+
+
+#########################################################
+import os
+import paramiko
+f = open('wodd'+".sh",'w+')
+f.write("wocao")
+f.seek(0)  #因为文件写入字符串后，文件指针在最后面了， 所以需要seek 0 把指针放在文件第一个字符前
+t = paramiko.Transport(('192.168.2.84',22))
+t.connect(username='root', password='chang')
+sftp = paramiko.SFTPClient.from_transport(t)
+try:
+	sftp.put('wodd.sh', os.path.join('/tmp/', 'wodd' + '.sh'))
+except IOError, e:
+	sftp.putfo(f, os.path.join('/tmp/', 'wodd' + '.sh'))
+	raise IOError(e)
+finally:
+	del(f)
+	t.close()

@@ -14,8 +14,10 @@ from docker import Client
 from docker.errors import APIError
 from DeamExe.Dockeroperate import Dockeroperate
 from DeamExe.Gitopera import Gitopera
+from LogSplit.models import servicename
 from host.models import Group, hostinfo
 from server.models import Environment, HttpChannel, Server
+from server.models import Channelforlog
 
 LogFile = os.path.normpath(os.getcwd() + '/logs/consloe.log')
 #待定闺中
@@ -99,6 +101,8 @@ def addserver(request):
                     nothing = '---------'
                 html_name['group'] = group_dict
                 html_name['environment'] = environment
+                html_name['ingorefile'] = request.POST.get('ingorefile','')
+                print html_name['ingorefile']
                 return render(request, 'addserver.html', {'html_name': html_name, 'group_checked': group_checked,
                                                           'host_checked': host_checked, 'environment_checked':environment_checked,
                                                           'tag_checked':tag_checked, 'nothing':nothing, 'message':message})
@@ -142,6 +146,7 @@ def addserver(request):
     else:
         html_name['group'] = group_dict
         html_name['environment'] = environment
+        html_name['ingorefile'] = ''
         return render(request, 'addserver.html', {'html_name': html_name, 'nothing':'---------'})
 
 import subprocess
@@ -235,6 +240,43 @@ def startinit(request):
         HttpChannelmessage(html_name['random'], 'Error')
         message['Error'] = 'Error'
     return JsonResponse(message)
+
+#实时查看日志选择服务
+def tailflog(request):
+    groups = Group.objects.all()
+    if not groups.exists():
+        return render(request, "serverlog.html", {"error":True})
+    else:
+        return render(request, "serverlog.html",{'groups':groups})
+
+def groupidtoserver(request):
+    groupid = request.GET.get('groupid','')
+
+    if groupid != '':
+        group = Group.objects.get(id=groupid)
+        hosts = hostinfo.objects.filter(group=group)
+        servers = []
+        for host in hosts:
+            for server in servicename.objects.filter(host=host):
+                servers.append(server.getdict())
+                print server.getdict()
+
+        return JsonResponse({'groupid':groupid, 'servers':servers})
+
+#真实打印页面 ，每次请求过来，都会从数据 库查是否已经强制打印，来控制下一个页面的“强制打印”按钮也点击性
+def tailfview(request, server_id):
+    if server_id == '0':
+        return render(request, 'kongbaiye.html', {})
+    if request.method == 'POST':
+        try:
+            group = Channelforlog.objects.get(channel_id=server_id)
+            if group.enforce:
+                return render(request, 'view.html',{"disabled":True})
+        except Channelforlog.DoesNotExist:
+            pass
+        return render(request, 'view.html', {"disabled":False})
+    else:
+        return render(request, 'kongbaiye.html', {})
 
 # http jquery 过来调用的函数 每3秒执行一次 返回数据库未读的消息
 @csrf_exempt

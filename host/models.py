@@ -25,11 +25,14 @@ class Group(models.Model):
 	docker_registry = models.CharField(u'docker仓库地址及端口',max_length=50, default=u'空')
 	def __unicode__(self):
 		return self.group_name
+	def getid(self):
+		return self.id
 	def getall(self):
 		return {str(self.id): self.group_name}
 		
 class hostinfo(models.Model):
 	group = models.ForeignKey(Group, related_name='group_set',blank=False, default='未分组')
+	forward_host = models.ForeignKey('self',verbose_name='跳转主机',null=True,blank=True) #代理主机
 	name = models.CharField(u'主机名', max_length=30)
 	ip = models.GenericIPAddressField(u'ip 地址')
 	rootname = models.CharField(u'管理员用户名', max_length=50)

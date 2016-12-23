@@ -6,7 +6,7 @@ from Gitopera import Gitopera
 import subprocess
 import sys
 
-
+#压缩foldername文件夹, 压缩文件名dest_folder, 压缩格式compression
 def mak_tar(foldername, dest_folder, compression='bz2'):
     if compression:
         dest_ext = '.' + compression

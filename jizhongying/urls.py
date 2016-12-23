@@ -24,6 +24,8 @@ urlpatterns = [
 	url(r'^version_switch/$', server_views.version_switch, name='version_switch'),
 	url(r'^addserver/$', server_views.addserver, name='addserver'),
 	url(r'^server/$', server_views.server, name='server'),
+	url(r'^serverlog/tailf/$', server_views.tailflog, name='tailflog' ),		#实时日志查看
+	url(r'^serverlog/(\d+)/$', server_views.tailfview, name='tailfview'),
 	url(r'^server/deploy/$', server_views.deploy, name='deploy'),
     url(r'^server/more/([a-z+]+)/(\d+)/(\d+)/$', server_views.rst_container, name='more_operat'),
     url(r'^server/rm_server/$', server_views.rm_server, name='rm_server'),
@@ -39,6 +41,7 @@ urlpatterns = [
 	url(r'^addserver/getenv_tags/$', server_views.getMeEnvTags, name='getenv_tags'),
 	url(r'^addserver/gethosts/$', server_views.getMeGroupUserJson, name='gethosts'),#jquery 动态加载主机
 	url(r'^upload/$', logsplit_views.file_download, name = 'upload'),
+	url(r'^groupid/$', server_views.groupidtoserver, name='groupidtoserver'),
     url(r'^$', logsplit_views.index, name='index'),
     url(r'^admin/', admin.site.urls),
 ]
