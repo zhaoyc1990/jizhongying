@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Install jizhongying:
 
 pip install -r requirements.txt
@@ -12,3 +13,6 @@ http://$youip:80
 
 
 if view 如报错：on models FunctionType 把site-packages/channels/types.py删除了
+
+=======
+>>>>>>> origin/master
