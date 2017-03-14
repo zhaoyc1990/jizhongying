@@ -5,10 +5,6 @@ import sys
 
 
 if __name__ == "__main__":
-    #在这启动一个socket服务端，做到最后业务操作，会打断django 运行，故再启动一个服务端做业务逻辑
-    #尽量放轻django
-    ##########3
-    #每次重启都将删除通道组数据 表
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "jizhongying.settings")
     try:
